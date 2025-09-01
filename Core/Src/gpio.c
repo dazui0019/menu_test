@@ -62,6 +62,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD0_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : BTN0_Pin */
+  GPIO_InitStruct.Pin = BTN0_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(BTN0_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pins : LCD_BL_Pin LCD_CS_Pin LCD_DC_Pin LCD_RST_Pin */
   GPIO_InitStruct.Pin = LCD_BL_Pin|LCD_CS_Pin|LCD_DC_Pin|LCD_RST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
