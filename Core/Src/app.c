@@ -9,7 +9,13 @@
 #include "time.h"
 #include "EventRecorder.h"
 
+struct stateMachine m;
+
 void timer_5ms_interrupt_handler(TIM_HandleTypeDef *htim);
+
+static void printEnterMsg( void *stateData, struct event *event );
+static void printExitMsg( void *stateData, struct event *event );
+static void printErrMsg( void *stateData, struct event *event );
 
 /* Types of events */
 enum eventType {
@@ -28,22 +34,37 @@ static struct state menuGroupState = {
     },
     .numTransitions = 1,
     .data = "group",
-    .entryAction = NULL,
-    .exitAction = NULL,
+    .entryAction = printEnterMsg,
+    .exitAction = printExitMsg,
 };
 
-// static struct state idleState = {
-//     .parentState = &menuGroupState,
-//     .entryState = NULL,
-//     .transitions = (struct transition[]){
-//         { Event_button, (void *)(intptr_t)'h', &compareKeyboardChar, NULL,
-//             &hState },
-//     },
-//     .numTransitions = 1,
-//     .data = "idle",
-//     .entryAction = &printEnterMsg,
-//     .exitAction = &printExitMsg,
-// };
+static struct state idleState = {
+    .parentState = &menuGroupState,
+    .entryState = NULL,
+    .transitions = (struct transition[]){
+        { Event_button, NULL, NULL, NULL, &menuState },
+    },
+    .numTransitions = 1,
+    .data = "idle",
+    .entryAction = printEnterMsg,
+    .exitAction = printExitMsg,
+};
+
+static struct state menuState = {
+    .parentState = &menuGroupState,
+    .entryState = NULL,
+    .transitions = (struct transition[]){
+        { Event_button, (void *)BTN_LONG_PRESS_START, NULL, NULL, &idleState },
+    },
+    .numTransitions = 1,
+    .data = "menu",
+    .entryAction = printEnterMsg,
+    .exitAction = printExitMsg,
+};
+
+static struct state errorState = {
+   .entryAction = &printErrMsg
+};
 
 static Button btn0;
 
@@ -62,9 +83,18 @@ void btn0_handler(Button* btn_handle)
     switch(btn_handle->event){
         case BTN_SINGLE_CLICK:
             printf("Button 0: Single Click\r\n");
+            stateM_handleEvent( &m, &(struct event){ Event_button,
+            (void *)(intptr_t)BTN_SINGLE_CLICK } );
             break;
         case BTN_DOUBLE_CLICK:
             printf("Button 0: Double Click\r\n");
+            stateM_handleEvent( &m, &(struct event){ Event_button,
+            (void *)(intptr_t)BTN_DOUBLE_CLICK } );
+            break;
+        case BTN_LONG_PRESS_START:
+            printf("Button 0: Long Press Start\r\n");
+            stateM_handleEvent( &m, &(struct event){ Event_button,
+            (void *)(intptr_t)BTN_LONG_PRESS_START } );
             break;
         default:
             break;
@@ -73,6 +103,8 @@ void btn0_handler(Button* btn_handle)
 
 void setup()
 {
+    stateM_init( &m, &idleState, &errorState );
+
     EventRecorderInitialize (EventRecordAll, 1);
     // 初始化按键 (active_level: 0=低电平有效, 1=高电平有效)
     button_init(&btn0, read_button_gpio, 0, 1);
@@ -96,4 +128,19 @@ void loop()
 void timer_5ms_interrupt_handler(TIM_HandleTypeDef *htim)
 {
     button_ticks();
+}
+
+static void printErrMsg( void *stateData, struct event *event )
+{
+   printf( "ENTERED ERROR STATE!\n" );
+}
+
+static void printEnterMsg( void *stateData, struct event *event )
+{
+   printf( "Entering %s state\n", (char *)stateData );
+}
+
+static void printExitMsg( void *stateData, struct event *event )
+{
+   printf( "Exiting %s state\n", (char *)stateData );
 }
