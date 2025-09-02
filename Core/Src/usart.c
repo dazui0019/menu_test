@@ -21,7 +21,7 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "printf_port.h"
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
@@ -81,7 +81,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* USER CODE BEGIN USART1_MspInit 1 */
-
+    retarget_printf(&huart1);
   /* USER CODE END USART1_MspInit 1 */
   }
 }
