@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F411xE,CMSIS_device_header=\"stm32f4xx.h\"</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Libraries/stateMachine;../Libraries/MultiButton;../Libraries/printf;..\Drivers\st7735</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Libraries/stateMachine;../Libraries/MultiButton;../Libraries/printf;..\Drivers\st7735;..\Libraries\uGUI</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -833,6 +833,16 @@
               <FileName>st7735.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\st7735\st7735.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Libraries/uGUI</GroupName>
+          <Files>
+            <File>
+              <FileName>ugui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\uGUI\ugui.c</FilePath>
             </File>
           </Files>
         </Group>
