@@ -8,6 +8,7 @@
 #include "tim.h"
 #include "time.h"
 #include "EventRecorder.h"
+#include "st7735.h"
 
 enum LCD_STATE{
     LCD_GROUP,
@@ -203,6 +204,10 @@ void setup()
     HAL_TIM_Base_Start_IT(&htim10);
 
     button_start(&btn0);
+
+    ST7735_Init();
+    ST7735_FillScreen(ST7735_WHITE);
+    ST7735_BLK_CTRL(1);
 }
 
 void loop()
