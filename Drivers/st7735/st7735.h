@@ -231,6 +231,7 @@ void ST7735_Init(void);
 void ST7735_DrawPixel(int16_t x, int16_t y, uint16_t color);
 //void ST7735_WriteString(uint16_t x, uint16_t y, const char* str, FontDef font, uint16_t color, uint16_t bgcolor);
 void ST7735_FillRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
+void ST7789_FillRectangle_XY(uint16_t xs, uint16_t ys, uint16_t xe, uint16_t ye, uint16_t color);
 // void ST7735_FillRectangleFast(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
 void ST7735_FillScreen(uint16_t color);
 // void ST7735_FillScreenFast(uint16_t color);

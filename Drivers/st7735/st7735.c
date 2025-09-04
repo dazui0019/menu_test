@@ -272,10 +272,27 @@ void ST7735_FillRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16
     LCD_DRV_DISP_CMD_DATA(GPIO_PIN_SET);
     for(y = h; y > 0; y--) {
         for(x = w; x > 0; x--) {
-            ST7735_WriteData(data, sizeof(data));
+            LCD_DRV_DISP_SPI_WR_ARRAY(data, 2);
         }
     }
 
+    ST7735_Unselect();
+}
+
+void ST7789_FillRectangle_XY(uint16_t xs, uint16_t ys, uint16_t xe, uint16_t ye, uint16_t color)
+{
+    if((xs >= ST7735_WIDTH) || (ys >= ST7735_HEIGHT)) return;
+    
+    ST7735_Select();
+    ST7735_SetAddressWindow(xs, ys, xe, ye);
+    uint8_t data[] = { color >> 8, color & 0xFF };
+    LCD_DRV_DISP_CMD_DATA(1);
+    
+    for(uint16_t y = ys; y <= ye; y++) {
+        for(uint16_t x = xs; x <= xe; x++) {
+            LCD_DRV_DISP_SPI_WR_ARRAY( data, 2 );
+        }
+    }
     ST7735_Unselect();
 }
 
