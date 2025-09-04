@@ -5,8 +5,6 @@
 //#include "fonts.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include "main.h"
-#include "lcd_port.h"
 
 #define ST7735_MADCTL_MY  0x80
 #define ST7735_MADCTL_MX  0x40

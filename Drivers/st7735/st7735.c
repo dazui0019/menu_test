@@ -2,10 +2,8 @@
 #include "st7735.h"
 #include "main.h"
 #include "spi.h"
-#include "stm32f4xx_hal_gpio.h"
 #include <string.h>
 #include "lcd_drv_conf.h"
-#include "stm32f4xx_hal_spi.h"
 
 #define DELAY 0x80
 

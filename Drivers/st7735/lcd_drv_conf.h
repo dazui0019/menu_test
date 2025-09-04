@@ -1,7 +1,6 @@
 #pragma once
 
 #include "main.h"
-#include "lcd_port.h"
 
 /**********************
  *   driver selection
